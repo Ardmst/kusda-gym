@@ -38,6 +38,14 @@
     </style>
 </head>
 <body>
+    <script>
+    
+    const statusLogin = localStorage.getItem('isLoggedIn'); 
+    if (!statusLogin) {
+        alert("Eits! Halaman ini khusus member. Silakan berlangganan dulu ya!");
+        window.location.href = "../index.html";
+    }
+</script>
     <script src="../../components.js"></script> <script src="../components.js"></script> 
     <script> renderNavbar('../'); </script>
 
