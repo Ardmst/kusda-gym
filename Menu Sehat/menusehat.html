@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root { --primary-teal: #00bfa6; --accent-yellow: #fbc02d; --font-family: 'Poppins', sans-serif; }
@@ -38,15 +39,34 @@
     </style>
 </head>
 <body>
-    <script>
     
-    const statusLogin = localStorage.getItem('isLoggedIn'); 
-    if (!statusLogin) {
-        alert("Eits! Halaman ini khusus member. Silakan berlangganan dulu ya!");
-        window.location.href = "../index.html";
-    }
-</script>
-    <script src="../../components.js"></script> <script src="../components.js"></script> 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Cek status login dari LocalStorage
+            const statusLogin = localStorage.getItem('isLoggedIn'); 
+
+            // Jika User BELUM Login
+            if (!statusLogin) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Akses Ditolak',
+                    text: 'Fitur Menu Sehat KHUSUS MEMBER PREMIUM!',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#00bfa6', // Warna sesuai tema
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                }).then((result) => {
+                    // Jika klik OK, tendang ke halaman utama
+                    if (result.isConfirmed) {
+                        window.location.href = "../index.html";
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script src="../../components.js"></script> 
+    <script src="../components.js"></script> 
     <script> renderNavbar('../'); </script>
 
     <header class="page-header"><div class="container"><h1>HEALTHY EATS</h1><p>Nutrisi terbaik untuk performa Anda.</p></div></header>
@@ -124,19 +144,35 @@
         </div>
         <div id="no-result" style="display:none; text-align:center; margin-top:20px; color:#777;"><i class="fas fa-search fa-2x mb-2"></i><p>Tidak ditemukan.</p></div>
     </div>
+    
     <footer><div class="container"><p class="fw-bold mb-0">KUSDA GYM</p><small>&copy; 2025 Kusda Gym.</small></div></footer>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const btns = document.querySelectorAll('.category-btn'), search = document.getElementById('searchInput'), items = document.querySelectorAll('.menu-item-col'), noRes = document.getElementById('no-result');
+        const btns = document.querySelectorAll('.category-btn'), 
+              search = document.getElementById('searchInput'), 
+              items = document.querySelectorAll('.menu-item-col'), 
+              noRes = document.getElementById('no-result');
+        
         function filter() {
-            const cat = document.querySelector('.category-btn.active').dataset.filter, term = search.value.toLowerCase(); let count = 0;
+            const cat = document.querySelector('.category-btn.active').dataset.filter, 
+                  term = search.value.toLowerCase(); 
+            let count = 0;
+            
             items.forEach(i => {
                 const show = (cat === 'all' || i.dataset.category.includes(cat)) && i.innerText.toLowerCase().includes(term);
-                i.style.display = show ? 'block' : 'none'; if(show) count++;
+                i.style.display = show ? 'block' : 'none'; 
+                if(show) count++;
             });
             noRes.style.display = count ? 'none' : 'block';
         }
-        btns.forEach(b => b.addEventListener('click', () => { btns.forEach(x => x.classList.remove('active')); b.classList.add('active'); filter(); }));
+        
+        btns.forEach(b => b.addEventListener('click', () => { 
+            btns.forEach(x => x.classList.remove('active')); 
+            b.classList.add('active'); 
+            filter(); 
+        }));
+        
         search.addEventListener('input', filter);
     </script>
 </body>
