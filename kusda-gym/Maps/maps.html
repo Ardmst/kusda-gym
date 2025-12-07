@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokasi Gym - Kusda Gym</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-teal: #00bfa6; 
+            --teal-dark: #009688; 
+            --accent-yellow: #fbc02d;
+            --font-family: 'Poppins', sans-serif;
+        }
+        body {
+            font-family: var(--font-family); 
+            padding-top: 80px; 
+            background-color: #f0f2f5; 
+            min-height: 100vh;
+        }
+        
+        /* Container Utama */
+        .main-card { 
+            background: white; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            overflow: hidden; 
+            border: 1px solid rgba(0,0,0,0.05); 
+            margin-bottom: 50px; 
+            display: flex;
+            flex-direction: column;
+            height: 80vh; 
+            min-height: 600px;
+        }
+
+        /* Header Area */
+        .page-header { 
+            padding: 20px 25px; 
+            background: white; 
+            border-bottom: 1px solid #f0f0f0; 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 15px; 
+            z-index: 10;
+        }
+        .page-title { 
+            color: #1a1a1a; 
+            font-weight: 700; 
+            margin: 0; 
+            font-size: 1.5rem; 
+            letter-spacing: -0.5px;
+        }
+        
+        /* Search Box Modern */
+        .search-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+        .search-box { position: relative; width: 100%; max-width: 320px; }
+        .search-box input { 
+            padding-left: 40px; 
+            border-radius: 12px; 
+            border: 1px solid #e1e4e8; 
+            background: #f9fafb;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .search-box input:focus { 
+            background: white;
+            border-color: var(--primary-teal); 
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1); 
+        }
+        .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #9ca3af; }
+        
+        .btn-reset { 
+            background: #fff; border: 1px solid #e1e4e8; color: #666; 
+            border-radius: 10px; padding: 6px 16px; font-weight: 500; font-size: 0.9rem;
+        }
+        .btn-reset:hover { background: #fef2f2; border-color: #fee2e2; color: #dc2626; }
+
+        /* Layout Peta & Sidebar */
+        .map-wrapper { display: flex; flex: 1; position: relative; overflow: hidden; }
+        
+        #map { 
+            flex: 2; 
+            background: #eef2f6; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        .branch-sidebar { 
+            flex: 1; 
+            max-width: 400px;
+            background: #fff; 
+            border-left: 1px solid #f0f0f0; 
+            overflow-y: auto; 
+            padding: 0; 
+        }
+
+        /* List Item yang Diperbarui */
+        .branch-item { 
+            padding: 15px; 
+            border-bottom: 1px solid #f5f5f5; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .branch-item:hover { background-color: #f8fafc; }
+        .branch-item.active { background-color: #e6fffa; border-right: 4px solid var(--primary-teal); }
+        
+        .branch-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .branch-content { flex: 1; min-width: 0; }
+        .branch-name { 
+            font-weight: 700; 
+            font-size: 1rem; 
+            color: #1f2937; 
+            margin-bottom: 4px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+        }
+        .branch-meta { 
+            font-size: 0.85rem; 
+            color: #64748b; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            margin-bottom: 4px; 
+        }
+        
+        .status-badge { 
+            display: inline-flex; 
+            align-items: center;
+            gap: 4px;
+            padding: 2px 10px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+        }
+        .status-open { background: #dcfce7; color: #166534; }
+        .status-closed { background: #fee2e2; color: #991b1b; }
+
+        /* Zoom Controls */
+        .map-zoom-controls { position: absolute; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 10; }
+        .btn-zoom { 
+            width: 36px; height: 36px; 
+            border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); 
+            background: white; color: #333; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            font-weight: 600; font-size: 1.2rem; 
+            cursor: pointer; transition: 0.2s; 
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-zoom:hover { background: var(--primary-teal); color: white; border-color: var(--primary-teal); }
+
+        @media (max-width: 992px) {
+            .main-card { height: auto; display: block; }
+            .map-wrapper { flex-direction: column; height: auto; }
+            #map { height: 400px; }
+            .branch-sidebar { max-width: 100%; height: auto; max-height: 400px; border-left: none; border-top: 1px solid #eee; }
+            .page-header { flex-direction: column; align-items: stretch; gap: 15px; }
+            .search-group { flex-direction: column; width: 100%; }
+            .search-box { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <script src="../../components.js"></script> <script src="../components.js"></script> 
+    <script> renderNavbar('../'); </script>
+
+    <div class="container py-4">
+        <div class="main-card">
+            <div class="page-header">
+                <h1 class="page-title"><i class="fas fa-map-location-dot me-2 text-primary-teal" style="color:var(--primary-teal)"></i>Lokasi Gym</h1>
+                
+                <div class="search-group">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input id="q" type="text" class="form-control shadow-none" placeholder="Cari cabang atau kota...">
+                    </div>
+                    
+                    <div class="form-check form-switch ms-1 d-flex align-items-center">
+                        <input class="form-check-input me-2" type="checkbox" id="openNow" style="cursor:pointer">
+                        <label class="form-check-label small fw-semibold text-secondary" for="openNow" style="cursor:pointer; white-space:nowrap">Buka Sekarang</label>
+                    </div>
+
+                    <button id="reset" class="btn-reset">
+                        <i class="fas fa-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="map-wrapper">
+                <div id="map">
+                    <div class="map-zoom-controls">
+                        <button id="zoomIn" class="btn-zoom">+</button>
+                        <button id="zoomOut" class="btn-zoom">−</button>
+                    </div>
+                </div>
+                <aside class="branch-sidebar" id="list"></aside>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- DATA MAPS UPDATED (JABODETABEK & MENYEBAR) ---
+        // Koordinat disesuaikan dengan bbox mock map agar terlihat menyebar visualnya
+        const gyms = [
+            { 
+                id:1, name:'Kusda Gym Kebayoran', city:'Jakarta Selatan', address:'Jl. Radio Dalam No. 12', 
+                lat:-6.1200, lng:106.8500, // Tengah agak atas
+                open:'06:00', close:'23:00', 
+                img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&fit=crop' 
+            },
+            { 
+                id:2, name:'Kusda Gym BSD City', city:'Tangerang Selatan', address:'Green Office Park, BSD', 
+                lat:-6.3500, lng:106.6500, // Paling Kiri
+                open:'05:30', close:'22:00', 
+                img: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=200&fit=crop' 
+            },
+            { 
+                id:3, name:'Kusda Gym Cikarang', city:'Kab. Bekasi', address:'Jababeka Education Park', 
+                lat:-6.2800, lng:107.4500, // Paling Kanan
+                open:'06:00', close:'21:00', 
+                img: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=200&fit=crop' 
+            },
+            { 
+                id:4, name:'Kusda Gym Cibinong', city:'Bogor', address:'Jl. Raya Bogor KM 42', 
+                lat:-6.9500, lng:106.9000, // Paling Bawah Tengah
+                open:'07:00', close:'20:00', 
+                img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&fit=crop' 
+            },
+            { 
+                id:5, name:'Kusda Gym Cinere', city:'Depok', address:'Jl. Cinere Raya No. 9', 
+                lat:-6.5500, lng:106.7500, // Bawah Kiri
+                open:'06:00', close:'22:00', 
+                img: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=200&fit=crop' 
+            }
+        ];
+
+        // --- LOGIC MAP RENDER ---
+        const bbox = { minLat:-7.5, maxLat:-6.0, minLng:106.5, maxLng:108.0 };
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const mapEl = document.getElementById('map');
+        const svg = document.createElementNS(svgNS,'svg'); 
+        svg.setAttribute('viewBox','0 0 1000 700'); 
+        svg.setAttribute('preserveAspectRatio','xMidYMid meet'); 
+        svg.style.width='100%'; svg.style.height='100%'; svg.style.display='block'; 
+        mapEl.appendChild(svg);
+
+        // Visual Map Background (Clean Style)
+        const bg = document.createElementNS(svgNS,'rect'); bg.setAttribute('x',0); bg.setAttribute('y',0); bg.setAttribute('width',1000); bg.setAttribute('height',700); bg.setAttribute('fill','#eef2f6'); svg.appendChild(bg); 
+        
+        const land = document.createElementNS(svgNS,'path'); 
+        land.setAttribute('d','M40 560 C120 420, 300 420, 420 520 C520 590, 700 540, 920 480 L920 680 L40 680 Z'); 
+        land.setAttribute('fill','#ffffff'); 
+        land.setAttribute('stroke','#e2e8f0'); 
+        land.setAttribute('stroke-width','2');
+        svg.appendChild(land);
+
+        const water = document.createElementNS(svgNS,'ellipse'); water.setAttribute('cx',760); water.setAttribute('cy',180); water.setAttribute('rx',160); water.setAttribute('ry',80); water.setAttribute('fill','#bae6fd'); water.setAttribute('opacity','0.6'); svg.appendChild(water);
+        
+        const river = document.createElementNS(svgNS,'path'); river.setAttribute('d','M120 80 C220 140, 280 200, 360 260 C420 300, 480 320, 560 340 C640 360, 720 360, 820 340'); 
+        river.setAttribute('stroke','#bae6fd'); river.setAttribute('stroke-width','12'); river.setAttribute('fill','none'); river.setAttribute('stroke-linecap','round'); svg.appendChild(river);
+        
+        const road1 = document.createElementNS(svgNS,'path'); road1.setAttribute('d','M80 520 L420 480 L640 460 L880 420'); 
+        road1.setAttribute('stroke','#fbbf24'); road1.setAttribute('stroke-width','4'); road1.setAttribute('fill','none'); road1.setAttribute('opacity','0.6'); svg.appendChild(road1);
+        
+        function project(lat,lng){
+            const x = ((lng - bbox.minLng)/(bbox.maxLng-bbox.minLng))*900 + 50;
+            const y = (1-((lat - bbox.minLat)/(bbox.maxLat-bbox.minLat)))*600 + 50;
+            return {x,y};
+        }
+
+        const markerLayer = document.createElementNS(svgNS,'g'); svg.appendChild(markerLayer);
+        const defs = document.createElementNS(svgNS,'defs');
+        const pin = document.createElementNS(svgNS,'g'); pin.setAttribute('id','pin');
+        
+        // Pin Visual
+        const pinShadow = document.createElementNS(svgNS,'ellipse'); pinShadow.setAttribute('cx',0); pinShadow.setAttribute('cy',2); pinShadow.setAttribute('rx',8); pinShadow.setAttribute('ry',3); pinShadow.setAttribute('fill','rgba(0,0,0,0.15)'); pin.appendChild(pinShadow);
+        
+        const pinBody = document.createElementNS(svgNS,'path'); 
+        pinBody.setAttribute('d','M0 -30 C-10 -30, -18 -22, -18 -12 C-18 -2, 0 10, 0 10 C0 10, 18 -2, 18 -12 C18 -22, 10 -30, 0 -30 Z'); 
+        pinBody.setAttribute('fill','#00bfa6'); 
+        pinBody.setAttribute('stroke','#fff'); 
+        pinBody.setAttribute('stroke-width','2'); 
+        pin.appendChild(pinBody);
+        
+        const pinDot = document.createElementNS(svgNS,'circle'); pinDot.setAttribute('cx',0); pinDot.setAttribute('cy',-12); pinDot.setAttribute('r',5); pinDot.setAttribute('fill','#fff'); pin.appendChild(pinDot);
+        defs.appendChild(pin); svg.appendChild(defs);
+
+        const markerEls = {};
+        const listEl = document.getElementById('list');
+
+        function nowIsBetween(open,close){
+            const now = new Date();
+            const hh = String(now.getHours()).padStart(2,'0');
+            const mm = String(now.getMinutes()).padStart(2,'0');
+            const cur = hh+':'+mm;
+            return cur >= open && cur <= close;
+        }
+
+        function addMarker(g){
+            const p = project(g.lat,g.lng);
+            const group = document.createElementNS(svgNS,'g'); 
+            group.setAttribute('transform',`translate(${p.x},${p.y})`); 
+            group.style.cursor = 'pointer';
+
+            const pinClone = pin.cloneNode(true); pinClone.removeAttribute('id'); group.appendChild(pinClone);
+            
+            // Tooltip
+            const tbox = document.createElementNS(svgNS,'rect'); 
+            tbox.setAttribute('x',-60); tbox.setAttribute('y',-65); tbox.setAttribute('width',120); tbox.setAttribute('height',26); tbox.setAttribute('rx',4); 
+            tbox.setAttribute('fill','#1f2937'); tbox.setAttribute('opacity','0'); tbox.setAttribute('class','tooltip-bg');
+            group.appendChild(tbox);
+            
+            const ttext = document.createElementNS(svgNS,'text'); 
+            ttext.setAttribute('x',0); ttext.setAttribute('y',-48); ttext.setAttribute('font-size',11); 
+            ttext.setAttribute('fill','#fff'); ttext.setAttribute('text-anchor','middle'); ttext.setAttribute('opacity','0'); 
+            ttext.textContent = g.name.replace('Kusda Gym ', ''); ttext.setAttribute('class','tooltip-text'); 
+            group.appendChild(ttext);
+            
+            markerLayer.appendChild(group);
+            markerEls[g.id] = group;
+
+            group.addEventListener('mouseenter',()=>{ 
+                group.querySelector('.tooltip-bg').setAttribute('opacity','1'); 
+                group.querySelector('.tooltip-text').setAttribute('opacity','1');
+                group.setAttribute('transform',`translate(${p.x},${p.y}) scale(1.1)`);
+            });
+            group.addEventListener('mouseleave',()=>{ 
+                group.querySelector('.tooltip-bg').setAttribute('opacity','0'); 
+                group.querySelector('.tooltip-text').setAttribute('opacity','0'); 
+                const isActive = listEl.querySelector(`.branch-item[data-id="${g.id}"]`).classList.contains('active');
+                if(!isActive) group.setAttribute('transform',`translate(${p.x},${p.y}) scale(1)`);
+            });
+            group.addEventListener('click', () => focusOn(g.id));
+
+            const openNow = nowIsBetween(g.open, g.close);
+            const statusClass = openNow ? 'status-open' : 'status-closed';
+            const statusText = openNow ? 'BUKA' : 'TUTUP';
+
+            const item = document.createElement('div'); 
+            item.className = 'branch-item'; 
+            item.dataset.id = g.id;
+
+            item.innerHTML = `
+                <div class="branch-thumb" style="background-image: url('${g.img}');"></div>
+                <div class="branch-content">
+                    <div class="branch-name">${g.name}</div>
+                    <div class="branch-meta"><i class="fas fa-map-marker-alt text-muted small"></i> ${g.city}</div>
+                    <div class="branch-meta"><i class="far fa-clock text-muted small"></i> ${g.open} - ${g.close}</div>
+                    <div style="margin-top:5px">
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                </div>
+            `;
+            item.addEventListener('click', () => focusOn(g.id));
+            listEl.appendChild(item);
+        }
+
+        function focusOn(id){
+            Object.values(markerEls).forEach(e => {
+                const path = e.querySelector('path');
+                if(path) path.setAttribute('fill','#00bfa6'); 
+            });
+            
+            const el = markerEls[id]; 
+            if(el) {
+                const path = el.querySelector('path');
+                if(path) path.setAttribute('fill','#f59e0b');
+            }
+            
+            document.querySelectorAll('.branch-item').forEach(i => i.classList.remove('active'));
+            const listItem = document.querySelector(`.branch-item[data-id="${id}"]`);
+            if(listItem) {
+                listItem.scrollIntoView({behavior:'smooth', block:'center'});
+                listItem.classList.add('active');
+            }
+        }
+
+        gyms.forEach(addMarker);
+
+        const q = document.getElementById('q');
+        const openToggle = document.getElementById('openNow');
+        
+        function applyFilters(){ 
+            const term = (q.value||'').toLowerCase(); 
+            listEl.innerHTML=''; 
+            
+            gyms.forEach(g => { 
+                const hay = (g.name+' '+g.city+' '+g.address).toLowerCase(); 
+                const isOpen = nowIsBetween(g.open, g.close);
+                const show = (!term || hay.includes(term)) && (!openToggle.checked || isOpen);
+                
+                markerEls[g.id].style.display = show ? 'block' : 'none'; 
+                if(show) addMarker(g);
+            });
+        }
+
+        q.addEventListener('input', applyFilters);
+        openToggle.addEventListener('change', applyFilters);
+        document.getElementById('reset').addEventListener('click', () => { q.value=''; openToggle.checked=false; applyFilters(); });
+
+        const zoomIn = document.getElementById('zoomIn');
+        const zoomOut = document.getElementById('zoomOut');
+        function setZoom(factor){ 
+            const view = svg.getAttribute('viewBox').split(' ').map(Number); 
+            const cx = view[0] + view[2]/2; const cy = view[1] + view[3]/2; 
+            const nw = Math.max(240, Math.min(1000, view[2]*factor)); 
+            const nh = Math.max(168, Math.min(700, view[3]*factor)); 
+            const nx = Math.max(0, Math.min(1000-nw, cx - nw/2)); 
+            const ny = Math.max(0, Math.min(700-nh, cy - nh/2)); 
+            svg.setAttribute('viewBox', `${nx} ${ny} ${nw} ${nh}`); 
+        }
+        zoomIn.addEventListener('click', ()=> setZoom(0.75)); 
+        zoomOut.addEventListener('click', ()=> setZoom(1.35));
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Menu Sehat - Kusda Gym</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --primary-teal: #00bfa6; --accent-yellow: #fbc02d; --font-family: 'Poppins', sans-serif; }
+        body { font-family: var(--font-family); background-color: #f4f4f4; padding-top: 80px; min-height: 100vh; }
+        
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1470');
+            background-size: cover; background-position: center; color: white; padding: 60px 0; text-align: center; border-radius: 0 0 30px 30px;
+        }
+        .filter-bar { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin: 30px 0; display: flex; gap: 15px; flex-wrap: wrap; }
+        .search-box { flex-grow: 1; position: relative; }
+        .search-box input { width: 100%; padding: 10px 15px 10px 40px; border-radius: 50px; border: 1px solid #eee; background: #f9f9f9; }
+        .search-box i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        .category-btn { border: 1px solid #eee; background: white; padding: 8px 20px; border-radius: 50px; font-weight: 600; color: #555; transition: 0.3s; cursor: pointer; }
+        .category-btn.active, .category-btn:hover { background: var(--primary-teal); color: white; border-color: var(--primary-teal); }
+        
+        .menu-card { border: none; border-radius: 15px; overflow: hidden; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
+        .menu-card:hover { transform: translateY(-10px); }
+        .card-img-wrapper { height: 200px; overflow: hidden; position: relative; }
+        .card-img-top { width: 100%; height: 100%; object-fit: cover; }
+        .nutrition-badge { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); color: var(--accent-yellow); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-weight: 700; }
+        .meta-info { font-size: 0.85rem; color: #888; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px; display: flex; justify-content: space-between; }
+        .btn-view { width: 100%; background: white; border: 2px solid var(--primary-teal); color: var(--primary-teal); font-weight: 700; border-radius: 10px; padding: 8px; text-decoration: none; text-align: center; display: block; }
+        .btn-view:hover { background: var(--primary-teal); color: white; }
+        footer { background: #212529; color: #f8f9fa; padding: 40px 20px; text-align: center; margin-top: 60px; }
+    </style>
+</head>
+<body>
+    <script src="../../components.js"></script> <script src="../components.js"></script> 
+    <script> renderNavbar('../'); </script>
+
+    <header class="page-header"><div class="container"><h1>HEALTHY EATS</h1><p>Nutrisi terbaik untuk performa Anda.</p></div></header>
+
+    <div class="container">
+        <div class="filter-bar">
+            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Cari resep..."></div>
+            <div id="filterContainer">
+                <button class="category-btn active" data-filter="all">Semua</button>
+                <button class="category-btn" data-filter="high-protein">High Protein</button>
+                <button class="category-btn" data-filter="low-carb">Low Carb</button>
+                <button class="category-btn" data-filter="vegan">Vegan</button>
+            </div>
+        </div>
+
+        <div class="row g-4" id="menuContainer">
+            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein low-carb">
+                <div class="menu-card">
+                    <div class="card-img-wrapper"><span class="nutrition-badge">450 Kcal</span><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500" class="card-img-top"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Grilled Chicken Salad</h5>
+                        <div class="meta-info"><span>15 Min</span><span>35g Protein</span></div>
+                        <p class="text-muted small mb-3">Dada ayam panggang dengan sayuran segar.</p>
+                        <a href="MENU1.html" class="btn btn-view">Lihat Resep</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
+                <div class="menu-card">
+                    <div class="card-img-wrapper"><span class="nutrition-badge">520 Kcal</span><img src="https://images.unsplash.com/photo-1543353071-087092ec393a?q=80&w=500" class="card-img-top"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Salmon Quinoa Bowl</h5>
+                        <div class="meta-info"><span>25 Min</span><span>28g Protein</span></div>
+                        <p class="text-muted small mb-3">Salmon pan-seared dengan quinoa hangat.</p>
+                        <a href="MENU2.html" class="btn btn-view">Lihat Resep</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
+                <div class="menu-card">
+                    <div class="card-img-wrapper"><span class="nutrition-badge">300 Kcal</span><img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?q=80&w=500" class="card-img-top"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Berry Protein Smoothie</h5>
+                        <div class="meta-info"><span>5 Min</span><span>20g Protein</span></div>
+                        <p class="text-muted small mb-3">Minuman pre-workout beri dan whey protein.</p>
+                        <a href="MENU3.html" class="btn btn-view">Lihat Resep</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 menu-item-col" data-category="vegan low-carb">
+                <div class="menu-card">
+                    <div class="card-img-wrapper"><span class="nutrition-badge">380 Kcal</span><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500" class="card-img-top"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Tofu Stir Fry</h5>
+                        <div class="meta-info"><span>20 Min</span><span>Vegan</span></div>
+                        <p class="text-muted small mb-3">Tumis tahu dan brokoli saus bawang putih.</p>
+                        <a href="MENU4.html" class="btn btn-view">Lihat Resep</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
+                <div class="menu-card">
+                    <div class="card-img-wrapper">
+                        <span class="nutrition-badge">580 Kcal</span>
+                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=800&auto=format&fit=crop" class="card-img-top" style="object-fit: cover;">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Lean Beef & Sweet Potato</h5>
+                        <div class="meta-info"><span>30 Min</span><span>40g Protein</span></div>
+                        <p class="text-muted small mb-3">Menu bulking daging sapi dan ubi jalar.</p>
+                        <a href="MENU5.html" class="btn btn-view">Lihat Resep</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="no-result" style="display:none; text-align:center; margin-top:20px; color:#777;"><i class="fas fa-search fa-2x mb-2"></i><p>Tidak ditemukan.</p></div>
+    </div>
+    <footer><div class="container"><p class="fw-bold mb-0">KUSDA GYM</p><small>&copy; 2025 Kusda Gym.</small></div></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const btns = document.querySelectorAll('.category-btn'), search = document.getElementById('searchInput'), items = document.querySelectorAll('.menu-item-col'), noRes = document.getElementById('no-result');
+        function filter() {
+            const cat = document.querySelector('.category-btn.active').dataset.filter, term = search.value.toLowerCase(); let count = 0;
+            items.forEach(i => {
+                const show = (cat === 'all' || i.dataset.category.includes(cat)) && i.innerText.toLowerCase().includes(term);
+                i.style.display = show ? 'block' : 'none'; if(show) count++;
+            });
+            noRes.style.display = count ? 'none' : 'block';
+        }
+        btns.forEach(b => b.addEventListener('click', () => { btns.forEach(x => x.classList.remove('active')); b.classList.add('active'); filter(); }));
+        search.addEventListener('input', filter);
+    </script>
+</body>
+</html>
