@@ -227,11 +227,11 @@
                 if (localStorage.getItem('isLoggedIn') === 'true') {
                      loginBtn.innerText = "Lanjut ke Home";
                      registerBtn.innerText = "Logout";
-                     registerBtn.onclick = performLogout; 
+                     // HAPUS baris registerBtn.onclick = ... di sini
                 } else {
                      loginBtn.innerText = "Login";
                      registerBtn.innerText = "Register";
-                     registerBtn.onclick = function() { performRegister(); };
+                     // HAPUS baris registerBtn.onclick = ... di sini
                 }
 
             } else { // Register Mode
@@ -241,10 +241,13 @@
                 subtitle.innerText = "New here? Create your account today.";
                 loginBtn.classList.remove("active");
                 registerBtn.classList.add("active");
+                
                 loginBtn.innerText = "Login";
                 registerBtn.innerText = "Register";
-                loginBtn.onclick = function() { switchMode('login'); };
-                registerBtn.onclick = function() { performRegister(); };
+                
+                // HAPUS DUA BARIS INI:
+                // loginBtn.onclick = function() { switchMode('login'); }; <--- INI BIANG KEROKNYA
+                // registerBtn.onclick = function() { performRegister(); };
             }
         }
 
@@ -301,7 +304,7 @@
         function performLogout() {
             localStorage.removeItem('loggedUser');
             localStorage.removeItem('isLoggedIn'); 
-            localStorage.removeItem('isPremium'); // Menghapus status premium saat logout
+            localStorage.removeItem('isPremium'); 
             msg.style.color = "#00bfa6";
             msg.innerText = "Logout berhasil! Sampai jumpa.";
             document.getElementById('form').reset();
