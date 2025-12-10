@@ -23,8 +23,7 @@
             background-color: #f0f2f5; 
             min-height: 100vh;
         }
-        
-        /* Container Utama */
+
         .main-card { 
             background: white; 
             border-radius: 16px; 
@@ -38,7 +37,6 @@
             min-height: 600px;
         }
 
-        /* Header Area */
         .page-header { 
             padding: 20px 25px; 
             background: white; 
@@ -57,8 +55,7 @@
             font-size: 1.5rem; 
             letter-spacing: -0.5px;
         }
-        
-        /* Search Box Modern */
+
         .search-group {
             display: flex;
             gap: 10px;
@@ -88,7 +85,6 @@
         }
         .btn-reset:hover { background: #fef2f2; border-color: #fee2e2; color: #dc2626; }
 
-        /* Layout Peta & Sidebar */
         .map-wrapper { display: flex; flex: 1; position: relative; overflow: hidden; }
         
         #map { 
@@ -107,7 +103,6 @@
             padding: 0; 
         }
 
-        /* List Item yang Diperbarui */
         .branch-item { 
             padding: 15px; 
             border-bottom: 1px solid #f5f5f5; 
@@ -161,7 +156,6 @@
         .status-open { background: #dcfce7; color: #166534; }
         .status-closed { background: #fee2e2; color: #991b1b; }
 
-        /* Zoom Controls */
         .map-zoom-controls { position: absolute; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 8px; z-index: 10; }
         .btn-zoom { 
             width: 36px; height: 36px; 
@@ -226,42 +220,39 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // --- DATA MAPS UPDATED (JABODETABEK & MENYEBAR) ---
-        // Koordinat disesuaikan dengan bbox mock map agar terlihat menyebar visualnya
         const gyms = [
             { 
                 id:1, name:'Kusda Gym Kebayoran', city:'Jakarta Selatan', address:'Jl. Radio Dalam No. 12', 
-                lat:-6.1200, lng:106.8500, // Tengah agak atas
+                lat:-6.1200, lng:106.8500, 
                 open:'06:00', close:'23:00', 
                 img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&fit=crop' 
             },
             { 
                 id:2, name:'Kusda Gym BSD City', city:'Tangerang Selatan', address:'Green Office Park, BSD', 
-                lat:-6.3500, lng:106.6500, // Paling Kiri
+                lat:-6.3500, lng:106.6500, 
                 open:'05:30', close:'22:00', 
                 img: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=200&fit=crop' 
             },
             { 
                 id:3, name:'Kusda Gym Cikarang', city:'Kab. Bekasi', address:'Jababeka Education Park', 
-                lat:-6.2800, lng:107.4500, // Paling Kanan
+                lat:-6.2800, lng:107.4500, 
                 open:'06:00', close:'21:00', 
                 img: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=200&fit=crop' 
             },
             { 
                 id:4, name:'Kusda Gym Cibinong', city:'Bogor', address:'Jl. Raya Bogor KM 42', 
-                lat:-6.9500, lng:106.9000, // Paling Bawah Tengah
+                lat:-6.9500, lng:106.9000, 
                 open:'07:00', close:'20:00', 
                 img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&fit=crop' 
             },
             { 
                 id:5, name:'Kusda Gym Cinere', city:'Depok', address:'Jl. Cinere Raya No. 9', 
-                lat:-6.5500, lng:106.7500, // Bawah Kiri
-                open:'06:00', close:'22:00', 
+                lat:-6.5500, lng:106.7500, 
+                open:'06:00', close:'12:00',
                 img: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=200&fit=crop' 
             }
         ];
 
-        // --- LOGIC MAP RENDER ---
         const bbox = { minLat:-7.5, maxLat:-6.0, minLng:106.5, maxLng:108.0 };
         const svgNS = 'http://www.w3.org/2000/svg';
         const mapEl = document.getElementById('map');
@@ -269,9 +260,11 @@
         svg.setAttribute('viewBox','0 0 1000 700'); 
         svg.setAttribute('preserveAspectRatio','xMidYMid meet'); 
         svg.style.width='100%'; svg.style.height='100%'; svg.style.display='block'; 
+
+        svg.style.cursor = 'grab'; 
+
         mapEl.appendChild(svg);
 
-        // Visual Map Background (Clean Style)
         const bg = document.createElementNS(svgNS,'rect'); bg.setAttribute('x',0); bg.setAttribute('y',0); bg.setAttribute('width',1000); bg.setAttribute('height',700); bg.setAttribute('fill','#eef2f6'); svg.appendChild(bg); 
         
         const land = document.createElementNS(svgNS,'path'); 
@@ -298,13 +291,11 @@
         const markerLayer = document.createElementNS(svgNS,'g'); svg.appendChild(markerLayer);
         const defs = document.createElementNS(svgNS,'defs');
         const pin = document.createElementNS(svgNS,'g'); pin.setAttribute('id','pin');
-        
-        // Pin Visual
+
         const pinShadow = document.createElementNS(svgNS,'ellipse'); pinShadow.setAttribute('cx',0); pinShadow.setAttribute('cy',2); pinShadow.setAttribute('rx',8); pinShadow.setAttribute('ry',3); pinShadow.setAttribute('fill','rgba(0,0,0,0.15)'); pin.appendChild(pinShadow);
         
         const pinBody = document.createElementNS(svgNS,'path'); 
         pinBody.setAttribute('d','M0 -30 C-10 -30, -18 -22, -18 -12 C-18 -2, 0 10, 0 10 C0 10, 18 -2, 18 -12 C18 -22, 10 -30, 0 -30 Z'); 
-        pinBody.setAttribute('fill','#00bfa6'); 
         pinBody.setAttribute('stroke','#fff'); 
         pinBody.setAttribute('stroke-width','2'); 
         pin.appendChild(pinBody);
@@ -329,9 +320,14 @@
             group.setAttribute('transform',`translate(${p.x},${p.y})`); 
             group.style.cursor = 'pointer';
 
-            const pinClone = pin.cloneNode(true); pinClone.removeAttribute('id'); group.appendChild(pinClone);
+            const pinClone = pin.cloneNode(true); pinClone.removeAttribute('id'); 
+
+            const isOpen = nowIsBetween(g.open, g.close);
+            const pinPath = pinClone.querySelector('path');
+            pinPath.setAttribute('fill', isOpen ? '#00bfa6' : '#9ca3af');
             
-            // Tooltip
+            group.appendChild(pinClone);
+
             const tbox = document.createElementNS(svgNS,'rect'); 
             tbox.setAttribute('x',-60); tbox.setAttribute('y',-65); tbox.setAttribute('width',120); tbox.setAttribute('height',26); tbox.setAttribute('rx',4); 
             tbox.setAttribute('fill','#1f2937'); tbox.setAttribute('opacity','0'); tbox.setAttribute('class','tooltip-bg');
@@ -357,11 +353,13 @@
                 const isActive = listEl.querySelector(`.branch-item[data-id="${g.id}"]`).classList.contains('active');
                 if(!isActive) group.setAttribute('transform',`translate(${p.x},${p.y}) scale(1)`);
             });
-            group.addEventListener('click', () => focusOn(g.id));
+            group.addEventListener('click', (e) => {
+                e.stopPropagation();
+                focusOn(g.id);
+            });
 
-            const openNow = nowIsBetween(g.open, g.close);
-            const statusClass = openNow ? 'status-open' : 'status-closed';
-            const statusText = openNow ? 'BUKA' : 'TUTUP';
+            const statusClass = isOpen ? 'status-open' : 'status-closed';
+            const statusText = isOpen ? 'BUKA' : 'TUTUP';
 
             const item = document.createElement('div'); 
             item.className = 'branch-item'; 
@@ -383,11 +381,14 @@
         }
 
         function focusOn(id){
-            Object.values(markerEls).forEach(e => {
-                const path = e.querySelector('path');
-                if(path) path.setAttribute('fill','#00bfa6'); 
+            gyms.forEach(g => {
+                if(markerEls[g.id]){
+                    const path = markerEls[g.id].querySelector('path');
+                    const isOpen = nowIsBetween(g.open, g.close);
+                    path.setAttribute('fill', isOpen ? '#00bfa6' : '#9ca3af');
+                }
             });
-            
+
             const el = markerEls[id]; 
             if(el) {
                 const path = el.querySelector('path');
@@ -415,8 +416,8 @@
                 const hay = (g.name+' '+g.city+' '+g.address).toLowerCase(); 
                 const isOpen = nowIsBetween(g.open, g.close);
                 const show = (!term || hay.includes(term)) && (!openToggle.checked || isOpen);
-                
-                markerEls[g.id].style.display = show ? 'block' : 'none'; 
+
+                if(markerEls[g.id]) markerEls[g.id].style.display = show ? 'block' : 'none'; 
                 if(show) addMarker(g);
             });
         }
@@ -427,17 +428,51 @@
 
         const zoomIn = document.getElementById('zoomIn');
         const zoomOut = document.getElementById('zoomOut');
+        
         function setZoom(factor){ 
             const view = svg.getAttribute('viewBox').split(' ').map(Number); 
             const cx = view[0] + view[2]/2; const cy = view[1] + view[3]/2; 
             const nw = Math.max(240, Math.min(1000, view[2]*factor)); 
             const nh = Math.max(168, Math.min(700, view[3]*factor)); 
-            const nx = Math.max(0, Math.min(1000-nw, cx - nw/2)); 
-            const ny = Math.max(0, Math.min(700-nh, cy - nh/2)); 
+            const nx = cx - nw/2;
+            const ny = cy - nh/2; 
             svg.setAttribute('viewBox', `${nx} ${ny} ${nw} ${nh}`); 
         }
         zoomIn.addEventListener('click', ()=> setZoom(0.75)); 
         zoomOut.addEventListener('click', ()=> setZoom(1.35));
+
+        let isDragging = false;
+        let startPoint = { x: 0, y: 0 };
+        let startViewBox = { x: 0, y: 0, w: 0, h: 0 };
+
+        svg.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            svg.style.cursor = 'grabbing';
+            startPoint = { x: e.clientX, y: e.clientY };
+
+            const vb = svg.getAttribute('viewBox').split(' ').map(Number);
+            startViewBox = { x: vb[0], y: vb[1], w: vb[2], h: vb[3] };
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+
+            const dx = e.clientX - startPoint.x;
+            const dy = e.clientY - startPoint.y;
+            const mapRect = mapEl.getBoundingClientRect();
+            const scaleX = startViewBox.w / mapRect.width;
+            const scaleY = startViewBox.h / mapRect.height;
+            const newX = startViewBox.x - (dx * scaleX);
+            const newY = startViewBox.y - (dy * scaleY);
+
+            svg.setAttribute('viewBox', `${newX} ${newY} ${startViewBox.w} ${startViewBox.h}`);
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            svg.style.cursor = 'grab';
+        });
     </script>
 </body>
 </html>

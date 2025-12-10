@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/png" href="../favicon.png">
+    <link rel="icon" type="image/png" href="../favicon.png"> 
     <title>Menu Sehat - Kusda Gym</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
     <style>
+        /* CSS Dibiarkan Sama */
         :root { --primary-teal: #00bfa6; --accent-yellow: #fbc02d; --font-family: 'Poppins', sans-serif; }
         body { font-family: var(--font-family); background-color: #f4f4f4; padding-top: 80px; min-height: 100vh; }
         
@@ -43,23 +44,43 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Cek status login dari LocalStorage
-            const statusLogin = localStorage.getItem('isLoggedIn'); 
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const statusPremium = localStorage.getItem('isPremium');
+            let redirect = false;
+            let title = '';
+            let text = '';
+            
+            // 🔥 KOREKSI: Cek 1: HARUS LOGIN dulu
+            if (isLoggedIn !== 'true') {
+                redirect = true;
+                title = 'Akses Dibatasi';
+                text = 'Anda harus login untuk mengakses fitur ini.';
+            } 
+            // 🔥 KOREKSI: Cek 2: HARUS PREMIUM (Jika sudah login)
+            else if (statusPremium !== 'true') {
+                redirect = true;
+                title = 'Akses Ditolak';
+                text = 'Fitur Menu Sehat KHUSUS MEMBER PREMIUM!';
+            }
 
-            // Jika User BELUM Login
-            if (!statusLogin) {
+            if (redirect) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Akses Ditolak',
-                    text: 'Fitur Menu Sehat KHUSUS MEMBER PREMIUM!',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#00bfa6', // Warna sesuai tema
+                    title: title,
+                    text: text,
+                    confirmButtonText: (isLoggedIn !== 'true' ? 'Login Sekarang' : 'OK'),
+                    confirmButtonColor: '#00bfa6', 
                     allowOutsideClick: false,
                     allowEscapeKey: false
                 }).then((result) => {
-                    // Jika klik OK, tendang ke halaman utama
                     if (result.isConfirmed) {
-                        window.location.href = "../index.html";
+                        if (isLoggedIn !== 'true') {
+                            // Redirect ke halaman login
+                            window.location.href = "../pages/loginregister.html";
+                        } else {
+                            // Redirect ke halaman membership di index.html
+                            window.location.href = "../index.html#membership"; 
+                        }
                     }
                 });
             }
@@ -86,7 +107,7 @@
         <div class="row g-4" id="menuContainer">
             <div class="col-12 col-md-4 menu-item-col" data-category="high-protein low-carb">
                 <div class="menu-card">
-                    <div class="card-img-wrapper"><span class="nutrition-badge">450 Kcal</span><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500" class="card-img-top"></div>
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title">Grilled Chicken Salad</h5>
                         <div class="meta-info"><span>15 Min</span><span>35g Protein</span></div>
