@@ -222,31 +222,36 @@
     <script>
         const gyms = [
             { 
-                id:1, name:'Kusda Gym Kebayoran', city:'Jakarta Selatan', address:'Jl. Radio Dalam No. 12', 
+                id:1, name:'Kusda Gym Kebayoran', city:'Jl. Radio Dalam No. 12, Jakarta Selatan', address:'Jl. Radio Dalam No. 12', 
+                phone: '0811-1111-1111', cp: 'Dewi',
                 lat:-6.1200, lng:106.8500, 
                 open:'06:00', close:'23:00', 
                 img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=200&fit=crop' 
             },
             { 
-                id:2, name:'Kusda Gym BSD City', city:'Tangerang Selatan', address:'Green Office Park, BSD', 
+                id:2, name:'Kusda Gym BSD City', city:'Green Office Park, BSD, Tangerang Selatan', address:'Green Office Park, BSD', 
+                phone: '0811-2222-1111', cp: 'Yanti',
                 lat:-6.3500, lng:106.6500, 
                 open:'05:30', close:'22:00', 
                 img: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=200&fit=crop' 
             },
             { 
-                id:3, name:'Kusda Gym Cikarang', city:'Kab. Bekasi', address:'Jababeka Education Park', 
+                id:3, name:'Kusda Gym Cikarang', city:'Jababeka Education Park, Kab. Bekasi', address:'Jababeka Education Park', 
+                phone: '0811-3333-1111', cp: 'Budi',
                 lat:-6.2800, lng:107.4500, 
                 open:'06:00', close:'21:00', 
                 img: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=200&fit=crop' 
             },
             { 
-                id:4, name:'Kusda Gym Cibinong', city:'Bogor', address:'Jl. Raya Bogor KM 42', 
+                id:4, name:'Kusda Gym Cibinong', city:'Jl. Raya Bogor KM 42, Bogor', address:'Jl. Raya Bogor KM 42',
+                phone: '0811-4444-1111', cp: 'Agus', 
                 lat:-6.9500, lng:106.9000, 
                 open:'07:00', close:'20:00', 
                 img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=200&fit=crop' 
             },
             { 
-                id:5, name:'Kusda Gym Cinere', city:'Depok', address:'Jl. Cinere Raya No. 9', 
+                id:5, name:'Kusda Gym Cinere', city:'Jl. Cinere Raya No. 9, Depok', address:'Jl. Cinere Raya No. 9', 
+                phone: '0811-5555-1111', cp: 'Joko',
                 lat:-6.5500, lng:106.7500, 
                 open:'06:00', close:'12:00',
                 img: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?q=80&w=200&fit=crop' 
@@ -370,9 +375,19 @@
                 <div class="branch-content">
                     <div class="branch-name">${g.name}</div>
                     <div class="branch-meta"><i class="fas fa-map-marker-alt text-muted small"></i> ${g.city}</div>
+                    
                     <div class="branch-meta"><i class="far fa-clock text-muted small"></i> ${g.open} - ${g.close}</div>
-                    <div style="margin-top:5px">
+                    
+                    <div class="branch-meta" style="color: #333; font-weight: 500; margin-top:4px;">
+                        <i class="fas fa-phone-alt text-primary small"></i> ${g.phone}
+                    </div>
+
+                    <div style="margin-top:8px; display:flex; align-items:center; gap:8px;">
                         <span class="status-badge ${statusClass}">${statusText}</span>
+                        
+                        <a href="https://wa.me/${g.phone.replace(/-/g,'')}" target="_blank" style="text-decoration:none; background:#25D366; color:white; padding:4px 10px; border-radius:15px; font-size:0.75rem; font-weight:600; display:flex; align-items:center; gap:4px;">
+                            <i class="fab fa-whatsapp"></i> Hubungi ${g.cp}
+                        </a>
                     </div>
                 </div>
             `;

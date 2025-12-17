@@ -55,11 +55,11 @@
     <script>
         // Sample gym locations (id, name, address, lat, lng)
         const gyms = [
-            { id: 1, name: 'Kusda Gym Central', address: 'Jl. Merdeka No.1, Jakarta', lat: -6.200000, lng: 106.816666 },
-            { id: 2, name: 'Kusda Gym South', address: 'Jl. Sudirman No.88, Jakarta', lat: -6.230000, lng: 106.800000 },
-            { id: 3, name: 'Kusda Gym North', address: 'Jl. Thamrin No.10, Jakarta', lat: -6.170000, lng: 106.822000 },
-            { id: 4, name: 'Kusda Gym Bekasi', address: 'Bekasi Mall, Bekasi', lat: -6.240000, lng: 106.992000 },
-            { id: 5, name: 'Kusda Gym Bandung', address: 'Braga Street, Bandung', lat: -6.914744, lng: 107.609810 }
+            { id: 1, name: 'Kusda Gym Kebayoran', address: 'Jl. Merdeka No.1, Jakarta', lat: -6.200000, lng: 106.816666 },
+            { id: 2, name: 'Kusda Gym BSD City', address: 'Jl. Sudirman No.88, Jakarta', lat: -6.230000, lng: 106.800000 },
+            { id: 3, name: 'Kusda Gym Cikarang', address: 'Jl. Thamrin No.10, Jakarta', lat: -6.170000, lng: 106.822000 },
+            { id: 4, name: 'Kusda Gym Cibinong', address: 'Bekasi Mall, Bekasi', lat: -6.240000, lng: 106.992000 },
+            { id: 5, name: 'Kusda Gym Cinere', address: 'Braga Street, Bandung', lat: -6.914744, lng: 107.609810 }
         ];
 
         const map = L.map('map').setView([-6.2, 106.82], 11);
