@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../favicon.png">
+    <title>Video Tutorial - Kusda Gym</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Manual Navbar DIHAPUS agar ikut style global components.js */
+        
+        /* Style Khusus Halaman Tutorial */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            /* Padding top diurus otomatis oleh components.js */
+        }
+
+        .tutorial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h1 {
+            font-weight: 700;
+            color: #333; /* Akan berubah otomatis di dark mode */
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #666;
+        }
+
+        /* Grid System */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsif */
+            gap: 30px;
+        }
+
+        /* Video Card */
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            height: 100%; /* Agar tinggi kartu rata */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Wrapper 16:9 untuk Iframe */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* Rasio 16:9 */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+
+        .video-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333; /* Dark mode handled by global css */
+        }
+
+        .video-info p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .btn-yt {
+            display: inline-block;
+            text-decoration: none;
+            color: #ff0000;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: auto; /* Dorong ke bawah */
+        }
+        
+        .btn-yt:hover {
+            text-decoration: underline;
+        }
+        
+        /* Dark Mode Override Spesifik Halaman Ini (Optional, sisa diurus components.js) */
+        body.dark-mode .section-header h1,
+        body.dark-mode .video-info h3 { color: #e0e0e0; }
+        body.dark-mode .section-header p,
+        body.dark-mode .video-info p { color: #b0b0b0; }
+    </style>
+</head>
+<body>
+
+    <script src="../components.js"></script>
+    <script> renderNavbar('../'); </script>
+
+    <div class="tutorial-container">
+        <div class="section-header">
+            <h1>Tutorial Gerakan Dasar</h1>
+            <p>Pelajari teknik yang benar untuk hasil maksimal dan menghindari cedera.</p>
+        </div>
+
+        <div class="video-grid">
+            
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/z8zKfuebakA" title="Warm Up" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>1. Total Body Warm Up</h3>
+                    <p>Pemanasan sangat penting sebelum memulai angkat beban. Lakukan selama 5-10 menit.</p>
+                    <a href="https://youtu.be/z8zKfuebakA" target="_blank" class="btn-yt">
+                        <i class="fab fa-youtube"></i> Tonton di YouTube
+                    </a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/D3wBb0WscGg" title="Full Body" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>2. 20 Min Full Body Workout</h3>
+                    <p>Latihan seluruh tubuh tanpa alat. Cocok untuk pemula yang baru memulai.</p>
+                    <a href="https://youtu.be/D3wBb0WscGg" target="_blank" class="btn-yt">
+                        <i class="fab fa-youtube"></i> Tonton di YouTube
+                    </a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/aXFL7QIJcsc" title="Dumbbell" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>3. Dumbbell Full Body</h3>
+                    <p>Panduan menggunakan dumbbell untuk melatih otot dada, bahu, dan punggung.</p>
+                    <a href="https://youtu.be/aXFL7QIJcsc" target="_blank" class="btn-yt">
+                        <i class="fab fa-youtube"></i> Tonton di YouTube
+                    </a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/orNHl7b1BOE" title="Abs Workout" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3>4. 10 Min Abs Workout</h3>
+                    <p>Fokus latihan otot perut untuk membentuk core yang kuat dan sixpack.</p>
+                    <a href="https://youtu.be/orNHl7b1BOE" target="_blank" class="btn-yt">
+                        <i class="fab fa-youtube"></i> Tonton di YouTube
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer style="background: #212529; color: #f8f9fa; text-align: center; padding: 40px 20px; margin-top: 50px;">
+        <div class="container">
+            <p class="fw-bold mb-0">KUSDA GYM</p>
+            <small>&copy; 2025 Kusda Gym. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

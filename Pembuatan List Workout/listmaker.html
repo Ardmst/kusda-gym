@@ -42,6 +42,18 @@
     <script> renderNavbar('../'); </script>
     
     <script>
+        (function() {
+        const activeUser = localStorage.getItem("loggedUser");
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const userData = users.find(u => u.name === activeUser);
+
+        // Jika belum login ATAU bukan member
+        if (!activeUser || !userData || !userData.isMember) {
+            alert("🔒 AKSES DITOLAK!\nHalaman ini khusus Member Premium.\nSilakan Login atau Beli Paket Membership.");
+            // Redirect paksa ke halaman membership di index
+            window.location.href = "../index.html#membership"; 
+        }
+    })();
         document.addEventListener("DOMContentLoaded", function() {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
             const statusPremium = localStorage.getItem('isPremium');
@@ -74,7 +86,7 @@
                 }).then(() => {
                     if (isLoggedIn !== 'true') {
                         // Redirect ke halaman login
-                        window.location.href = "../pages/loginregister.html";
+                        window.location.href = "../Login-Register/loginregister.html";
                     } else {
                         // Redirect ke halaman membership di index.html
                         window.location.href = "../index.html#membership"; 
@@ -173,7 +185,7 @@
             { id: 1, name: "Bench Press", muscle: "Chest", img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=150" },
             { id: 2, name: "Squat", muscle: "Legs", img: "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=150" },
             { id: 3, name: "Deadlift", muscle: "Back", img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=150" },
-            { id: 4, name: "Pull Up", muscle: "Back", img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTExMVFhUXGRgXFxcYGBgdGBgXGBcXGBcXFRgaHSggGBolHRcVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGxAQGy0lHyUtLS0tLy0vLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIALcBEwMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAGAAMEBQcCAQj/xABLEAABAwIEAgYGBwMJBwUBAAABAAIRAwQFEiExBkETIlFhcYEHMpGhscEUI1KS0eHwQnKCFmKTorLC0tPxJDM0U4PD41RjlKOzF//EABoBAAIDAQEAAAAAAAAAAAAAAAECAAMEBQb/xAAnEQACAgEDBAICAwEAAAAAAAAAAQIRAxIhMQQTQVEiMhRhI3GRM//aAAwDAQACEQMRAD8AxuwuHU3Bw5Inwqsa+rjDRqSeZgIZfELq3ru2kgbwqZKyqSsK754Y0a6T81EbirC4CNQqzEL81Ggdn5qAAQQVWse24qx7bhbTrc50U5rgWH4n5KiovdULW028tSr/AAzA31NM2gVMopbiNIgUK5JPIDdWlSk3IC48tAvMWwg0ABPfKh0qb3tknXkFW6qwVuV9xRLXCDMnbsVy2k6oA3s5KHUsXsIcdVYUqbmMJA1dz5u9ByXC5IVtzYua7tTVCpLsplstKxwtj2h7dVEbJ3d9Npa1rWjX6zS31j9kHTvP/AFQ1dYc9vVdo0z7F9Y/0h4sLWwqlG7pNbGj7hP91XjR3l+T4m7XCPoJcO0C2A7+S0Jg4wBIPgsB/wBYm+tU39o/xQ/W+kV4mKrx4ud/iq7Y77B/wAT7l+T728tQvLdoCxq7+kK/p0M65f8AUlD9p+lV1M/h/F3H+xI2n+Qj/iV/b/ADR/Uv8AVH2Pq+lW/wC42H/h/wDtFwv/AKzN/wB1s/8AxP8A7RWv/Ww/2B//AEW//g/9o98R/wBZG/7jYf8A4n/2ixP+8L0n/wB2Wf8Aj/8A2iX/AN4XpT9hYf8A4//tE/1o/wDAj+yv/qXyffQvLQLC6n/rO//AB9l/wDr/wDtFrT/AK0f/wDcs//AHf/ANol+vj/APB/2D/iV/b/N+C8vL9f/ANZVn/uux/8Af/8AtEu/9Z1n/uvT/wDf/wDtE/1o/wDAj+yv/qXyfQQvLz6A/wCsw+3Yb+t/9pXlP/Wf/+4WH/r/8A2k/1sP8A4H/2D/iV/b/N7eHQTkQBOu37qNdwLzGup0XUv6vEwDuS46x5rAf+s7/APcLD/1v/wBpcP8A9Z9v/uvp/wDv/wDtFq9S/wAFT/yP/E1/b/N7iV5SpUqfWfXp52N9UAycsd/L2lB15izJjWdfFfL/wD1nO/3Ww/9b/8A2kuf+s5/9xt/+t/+0j1Mf+4f/wAr/qXyfR7uKGtOUk+5QKuLNb60jXkF8y/8A6zH/ANxtv/W//aWl+gD/AKzLDa4jO2s6m9rXOa0jLmIJgExG/JSvVxfw00Z9Qv8AM/x8n0WzG3u0Fk3l+4nJqHXtQtxRxhbNblcQ46gNBE+JMJvDvS7h9YdJrU3eY9n/iGqV5cE3uYsaWc/HkjC1w2tO7R8VHrcPcw6jULxnxVh1eA+pTL/wBrQ/90Lq4v4Y7F4l7d/4r133+r4K/0+v/AC/n8g1g6eH2IgtbIA47b/AJp+34cI135fJc/wBcYd/3y/+S/+S6/j3h37+H/kf/JdE5I4/L8GP06v/P+f/Q7TCLWw/d8lKtw7QeC8/j/h37+H/kf/Jejj/h37+H/kf/JT7iB/L8gq/p9f+f8/8gqvh9r/d8lKbcjksvHj3h37+H/AJH/AMl7/j5w932/jF/8lMoyF+H8g/p9f+f8AP/k9bWnkg+9d0jT/AH+aqLnxXh2l08O/wDs/+S8v/WnYX+7v/APh/8gqY5oH8PwZdL9P/AD/n/wAAu9V59b/6zLD/AN3f/wDD/wCQuf8A7zfDH7u//wCH/wAgtr7/AKD/AMX7k/8AUx/b/N/A+hO3pT80+q8z5X/AO83wz+7v/8Ah/8AIr//ALy/DH7u//wCH/wAgvX7/AKD/AMX7k/8AUx/b/N/A7tqWpS1c58r/wDu8vwv92//AOG/yK+//e54Z/d3f8Aw3+RUnqYf9w/2X/V1/b/N+D6rD9R3u/xXtM/Uf73f4r5R/wC73wz+7v/8Ahv8AIr//ALu/DP7u/wDhv8ip/rIf9w/2X/V1/b/N+D6rSvVfKf/u88M/u7/8A4b/Ipf/d34Z/d3/APw3+RP9ZD/uH+y/wCrX9v834PqyvVfKf/u88M/u7/8A4b/Ivf8A3eeGf3d//Df5FP9ZD/uH+y/6tf2/zfQh/wBJ2v2N/wD2H/8ACuJgD3K4sL6M+G8QxJtq3WlE0M7cjqU5c5kR1wDqOQ380T3n8N2LdlNq9t0aJdGUtG/cTqSgPqY1u6jD+y36tH9y+r5fQ+B7494h7+L/k/8kv/HPEf38X/J/5L6S5zQJcfYlO0rZ3/i5+1/7J/q4/2/wfL3/jniP7+L/k/8l7/jpiP7+L/k/8l9M/h3DnQ0r5tXpM/1HNCrTjO02hX6H1c+P+jH1sZ/wA/wDD5mP/ABoxF3rVq3/uP/8AJSrT+kG4t49UqVHn6uoeu4kDWGg9w9i+oafFOGt3uKXzJ/wCSu9Lh2GtGjX2p79GgD9y/5JV/p5r+G/yMPrY/wDq/xXyPn39J2L73d/8Ag/8AJL/HHE/vJd/3z/wkr6G/8UcH/fS/9t3/yVnZ+k/Bq0w+o6m7uLQdO8aT3kBP8A1c/+X4P/AOaX9v8AB8n/wCMcT/ey7/vn/CSl2/pDxCj9b6w8m1X/hJX1Fp+kDgr469yab/AGahA19kga+xWv8Ai3Aanb0G/vCfiCf6qX9v8GPrY/tX4Pki845xG7p9G5xCtWp/ZfWqPc0eYJg6Jb/F2If8+8/5zn+K+q7PhHDbYa2tQaByDR8lZ2NgxohoA8k3/Vf+T8D/zS/tX4Pj7+8XEP+fed/wA5z/Fd/wCLcQ/595/znP8AFfXH0aTtsj/Q/wAlz9FpxtGfBv8k/wBXH+3+D/8Aml/b/B8jf4txD/n3nf8AOcfxUvh/jHEaDujTxCtSp7srqrzTdygkxqV9d/Rt2yjwXv0bdsJ+DPEf8A0X/zS/t/g+FqvEVp1Kr2nuc4j3Er2z4oG8a/n8F90fh2n/AGR8FG4n6PMJv46VClUbyLhJHkRqE8P6X/yfgX9bH+3+D5X+n74I/NfSPoU/6yLD2cRz21D63R/wCFGvJ/QthtWd1pXNVtQ+oajXFk7wXEkEjQ6T2I64n4YtMWoCm8AZfo8s5XA/Zdzb3Kx8d/wDLP/xS/t/g0x/qZf+/4P//Z" },
+            { id: 4, name: "Pull Up", muscle: "Back", img: "https://media.gettyimages.com/id/2211604126/photo/unrecognizable-fit-woman-doing-resistance-band-assisted-pull-ups-in-gym.jpg?s=612x612&w=0&k=20&c=Jxd8U3JnLrBkIse8MaXmHz5SVaTJ3U944g14dyqN82c=" },
             { id: 5, name: "Overhead Press", muscle: "Shoulder", img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150" },
             { id: 6, name: "Dumbbell Curl", muscle: "Bicep", img: "https://images.unsplash.com/photo-1581009137042-c552e485697a?w=150" },
             { id: 7, name: "Tricep Pushdown", muscle: "Tricep", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" }

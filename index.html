@@ -34,15 +34,10 @@
             padding-top: 80px; 
         }
 
-        .btn-nav-login {
-            background-color: var(--primary-teal);
-            color: white; border: none; transition: 0.3s;
-        }
-        .btn-nav-login:hover { background-color: var(--teal-dark); color: white; }
-
         .container { max-width: 1140px; margin: 0 auto; }
         h2 { text-align: center; font-size: 2.2rem; font-weight: 700; margin-bottom: 40px; color: #333; }
         
+        /* Section Title dengan Garis Bawah di Tengah */
         .section-title { position: relative; display: inline-block; padding-bottom: 10px; }
         .section-title::after {
             content: ''; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
@@ -79,7 +74,6 @@
         .plan.popular { border-top: 5px solid var(--primary-teal); }
         .plan.best-value { border-top: 5px solid var(--accent-yellow); }
         
-        /* Badges & Tags */
         .plan .tag { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: var(--primary-teal); color: var(--white-bg); padding: 5px 15px; font-size: 0.7rem; font-weight: 700; border-radius: 0 0 5px 5px; width: 100%; max-width: 150px; }
         .plan.best-value .tag { background: var(--accent-yellow); color: #000; }
         
@@ -90,11 +84,7 @@
             border-radius: 5px; z-index: 2;
         }
 
-        .original-price {
-            color: var(--secondary-text); text-decoration: line-through;
-            font-size: 0.9rem; margin-bottom: -5px; display: block;
-        }
-
+        .original-price { color: var(--secondary-text); text-decoration: line-through; font-size: 0.9rem; margin-bottom: -5px; display: block; }
         .plan .price { font-size: 2rem; font-weight: 700; color: var(--primary-teal); margin: 5px 0; }
         .plan .per-month { font-size: 0.75rem; color: var(--secondary-text); }
         
@@ -106,9 +96,9 @@
         .time-block { background: rgba(255,255,255,0.5); padding: 15px 25px; border-radius: 10px; min-width: 100px; }
         .time-block span { display: block; font-size: 2.5rem; font-weight: 700; line-height: 1; }
 
-        /* Articles */
-        .article-card { border: none; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; background: white; height: 100%; display: flex; flex-direction: column; }
-        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        /* Articles & Tutorial Cards */
+        .article-card, .tutorial-card { border: none; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; background: white; height: 100%; display: flex; flex-direction: column; }
+        .article-card:hover, .tutorial-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .article-img { height: 200px; object-fit: cover; }
         .article-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
         .article-title { font-weight: 700; margin-bottom: 10px; color: #333; }
@@ -116,15 +106,33 @@
         .article-btn { color: var(--primary-teal); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
         .article-btn:hover { color: var(--teal-dark); text-decoration: underline; }
 
+        /* Tutorial Specific */
+        .tutorial-img-wrapper { position: relative; height: 200px; }
+        .tutorial-img { width: 100%; height: 100%; object-fit: cover; }
+        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: rgba(255,255,255,0.8); font-size: 3rem; transition: 0.3s; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .tutorial-card:hover .play-icon { color: var(--accent-yellow); transform: translate(-50%, -50%) scale(1.1); }
+
         /* Banner Menu Sehat */
         .menu-banner { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1470&auto=format&fit=crop') center/cover; border-radius: 20px; padding: 80px 40px; text-align: center; color: white; box-shadow: 0 15px 40px rgba(0,0,0,0.2); position: relative; overflow: hidden; }
         .menu-banner h2 { color: var(--primary-teal); margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .menu-banner p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px auto; color: #f0f0f0; }
 
-        /* Benefits & FAQ */
-        .benefits-trigger-section { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; background: var(--white-bg); padding: 50px; border-radius: 10px; margin: 60px 20px; }
+        /* Benefits & FAQ - FIX: Center Alignment */
+        .benefits-trigger-section { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            align-items: center; 
+            gap: 50px; 
+            background: var(--white-bg); 
+            padding: 50px; 
+            border-radius: 10px; 
+            margin: 60px auto; /* Margin auto agar frame di tengah */
+        }
         .benefits-trigger-section img { width: 100%; border-radius: 10px; object-fit: cover; }
-        .benefits-content h2 { text-align: left; font-size: 2rem; }
+        
+        /* Center text content */
+        .benefits-content { text-align: center; } 
+        .benefits-content h2 { text-align: center; font-size: 2rem; }
         
         #faq { padding-bottom: 60px; padding-left: 20px; padding-right: 20px; }
         .faq-container details { background-color: var(--white-bg); margin-bottom: 10px; border-radius: 5px; padding: 20px; border: 1px solid var(--border-color); }
@@ -134,7 +142,7 @@
         .footer-content { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; }
         .footer-col a { display: block; color: #ccc; text-decoration: none; margin-bottom: 10px; }
 
-        /* --- MODAL --- */
+        /* --- MODAL & TABS --- */
         .modal { display: none; position: fixed; z-index: 1050; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
         .modal:target { display: block; }
         .modal-content { display: flex; flex-direction: column; background-color: var(--white-bg); margin: 2% auto; width: 90%; max-width: 800px; max-height: 90vh; border-radius: 15px; position: relative; color: var(--dark-text); overflow: hidden; }
@@ -142,20 +150,17 @@
         .modal-body { padding: 20px; overflow-y: auto; }
         .close-btn { color: #333; font-size: 30px; font-weight: bold; text-decoration: none; line-height: 1; }
         
-        /* Tab Styles */
         .tab-details { border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
         .tab-details summary { font-weight: 700; padding: 15px 20px; cursor: pointer; background-color: #f1f3f5; list-style: none; display: flex; justify-content: space-between; position: relative; }
         .tab-details summary::after { content: "+"; font-size: 1.2rem; transition: transform 0.3s; }
         .tab-details[open] summary::after { content: "-"; }
         .tab-details-content { padding: 20px; background: #fff; }
 
-        /* Benefit Item */
         .benefit-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; border-bottom: 1px dashed #eee; padding-bottom: 15px; }
         .benefit-icon { width: 32px; height: 32px; object-fit: contain; }
         .benefit-item h4 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--primary-teal); }
         .benefit-item p { margin: 0; color: var(--secondary-text); font-size: 0.9rem; }
 
-        /* Class Category */
         .class-category { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; margin-top: 15px; }
         .class-list-image { width: 100%; border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--border-color); object-fit: cover; }
 
@@ -168,7 +173,7 @@
 <body>
 
     <script src="components.js"></script>
-<script> renderNavbar('./'); </script>
+    <script> renderNavbar('./'); </script>
 
     <header>
         <div class="hero-content">
@@ -238,7 +243,7 @@
 
         <section class="container mt-5 pt-5">
             <h2 class="section-title">TIPS SEHAT & LATIHAN</h2>
-            <div class="row g-4 mt-3">
+            <div class="row g-4 mt-3 justify-content-center">
                 <div class="col-md-4">
                     <div class="article-card">
                         <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=600" class="article-img" alt="Tips Latihan">
@@ -269,6 +274,54 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="container mt-5 pt-4">
+            <h2 class="section-title">VIDEO TUTORIAL</h2>
+            <p class="text-center text-secondary mb-4">Pelajari teknik gerakan yang benar langsung dari instruktur kami.</p>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="tutorial-card" onclick="window.location.href='Tutorial/tutorial.html'" style="cursor: pointer;">
+                        <div class="tutorial-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=600" class="tutorial-img" alt="Dumbbell Workout">
+                            <i class="fas fa-play-circle play-icon"></i>
+                        </div>
+                        <div class="article-body">
+                            <h5 class="article-title">Dumbbell Full Body Workout</h5>
+                            <p class="article-text">Latihan seluruh tubuh hanya menggunakan sepasang dumbbell. Cocok untuk pemula.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tutorial-card" onclick="window.location.href='Tutorial/tutorial.html'" style="cursor: pointer;">
+                        <div class="tutorial-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?q=80&w=600" class="tutorial-img" alt="Push Up">
+                            <i class="fas fa-play-circle play-icon"></i>
+                        </div>
+                        <div class="article-body">
+                            <h5 class="article-title">Tutorial Push Up Benar</h5>
+                            <p class="article-text">Jangan sampai salah postur! Pelajari teknik push up yang aman untuk sendi bahu.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tutorial-card" onclick="window.location.href='Tutorial/tutorial.html'" style="cursor: pointer;">
+                        <div class="tutorial-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=600" class="tutorial-img" alt="Abs Workout">
+                            <i class="fas fa-play-circle play-icon"></i>
+                        </div>
+                        <div class="article-body">
+                            <h5 class="article-title">10 Menit Membakar Perut</h5>
+                            <p class="article-text">Rangkaian latihan otot perut intensif tanpa alat tambahan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 mb-5">
+                <a href="Tutorial/tutorial.html" class="btn-custom">Lihat Semua Tutorial <i class="fas fa-video ms-2"></i></a>
             </div>
         </section>
 
@@ -340,7 +393,7 @@
             </div>
             <div class="modal-body">
                 
-                <details class="tab-details" open>
+                <details class="tab-details"> 
                     <summary>Fasilitas</summary>
                     <div class="tab-details-content">
                         <div class="benefit-item">
@@ -458,7 +511,7 @@
         }
 
         // --- COUNTDOWN TIMER ---
-        const targetDate = new Date("Dec 12, 2025 00:00:00").getTime();
+        const targetDate = new Date("Dec 31, 2025 00:00:00").getTime();
 
         setInterval(function() {
             const now = new Date().getTime();

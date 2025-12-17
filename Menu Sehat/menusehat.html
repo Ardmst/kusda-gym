@@ -43,6 +43,18 @@
 <body>
     
     <script>
+        (function() {
+        const activeUser = localStorage.getItem("loggedUser");
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const userData = users.find(u => u.name === activeUser);
+
+        // Jika belum login ATAU bukan member
+        if (!activeUser || !userData || !userData.isMember) {
+            alert("🔒 AKSES DITOLAK!\nHalaman ini khusus Member Premium.\nSilakan Login atau Beli Paket Membership.");
+            // Redirect paksa ke halaman membership di index
+            window.location.href = "../index.html#membership"; 
+        }
+    })();
         document.addEventListener("DOMContentLoaded", function() {
             const isLoggedIn = localStorage.getItem('isLoggedIn');
             const statusPremium = localStorage.getItem('isPremium');
@@ -50,13 +62,11 @@
             let title = '';
             let text = '';
             
-            // 🔥 KOREKSI: Cek 1: HARUS LOGIN dulu
             if (isLoggedIn !== 'true') {
                 redirect = true;
                 title = 'Akses Dibatasi';
                 text = 'Anda harus login untuk mengakses fitur ini.';
             } 
-            // 🔥 KOREKSI: Cek 2: HARUS PREMIUM (Jika sudah login)
             else if (statusPremium !== 'true') {
                 redirect = true;
                 title = 'Akses Ditolak';
@@ -75,10 +85,8 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         if (isLoggedIn !== 'true') {
-                            // Redirect ke halaman login
                             window.location.href = "../pages/loginregister.html";
                         } else {
-                            // Redirect ke halaman membership di index.html
                             window.location.href = "../index.html#membership"; 
                         }
                     }
@@ -105,67 +113,83 @@
         </div>
 
         <div class="row g-4" id="menuContainer">
-            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein low-carb">
-                <div class="menu-card">
-                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">Grilled Chicken Salad</h5>
-                        <div class="meta-info"><span>15 Min</span><span>35g Protein</span></div>
-                        <p class="text-muted small mb-3">Dada ayam panggang dengan sayuran segar.</p>
-                        <a href="MENU1.html" class="btn btn-view">Lihat Resep</a>
-                    </div>
-                </div>
+    
+    <div class="col-12 col-md-4 menu-item-col" data-category="high-protein low-carb">
+        <div class="menu-card">
+            <div class="card-img-wrapper">
+                <span class="nutrition-badge">450 Kcal</span>
+                <img src="https://www.cookingclassy.com/wp-content/uploads/2024/05/grilled-chicken-salad-04-1024x1536.jpg" class="card-img-top" style="height: 250px; object-fit: cover;">
             </div>
-            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
-                <div class="menu-card">
-                    <div class="card-img-wrapper"><span class="nutrition-badge">520 Kcal</span><img src="https://images.unsplash.com/photo-1543353071-087092ec393a?q=80&w=500" class="card-img-top"></div>
-                    <div class="card-body">
-                        <h5 class="card-title">Salmon Quinoa Bowl</h5>
-                        <div class="meta-info"><span>25 Min</span><span>28g Protein</span></div>
-                        <p class="text-muted small mb-3">Salmon pan-seared dengan quinoa hangat.</p>
-                        <a href="MENU2.html" class="btn btn-view">Lihat Resep</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
-                <div class="menu-card">
-                    <div class="card-img-wrapper"><span class="nutrition-badge">300 Kcal</span><img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?q=80&w=500" class="card-img-top"></div>
-                    <div class="card-body">
-                        <h5 class="card-title">Berry Protein Smoothie</h5>
-                        <div class="meta-info"><span>5 Min</span><span>20g Protein</span></div>
-                        <p class="text-muted small mb-3">Minuman pre-workout beri dan whey protein.</p>
-                        <a href="MENU3.html" class="btn btn-view">Lihat Resep</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 menu-item-col" data-category="vegan low-carb">
-                <div class="menu-card">
-                    <div class="card-img-wrapper"><span class="nutrition-badge">380 Kcal</span><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500" class="card-img-top"></div>
-                    <div class="card-body">
-                        <h5 class="card-title">Tofu Stir Fry</h5>
-                        <div class="meta-info"><span>20 Min</span><span>Vegan</span></div>
-                        <p class="text-muted small mb-3">Tumis tahu dan brokoli saus bawang putih.</p>
-                        <a href="MENU4.html" class="btn btn-view">Lihat Resep</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
-                <div class="menu-card">
-                    <div class="card-img-wrapper">
-                        <span class="nutrition-badge">580 Kcal</span>
-                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=800&auto=format&fit=crop" class="card-img-top" style="object-fit: cover;">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Lean Beef & Sweet Potato</h5>
-                        <div class="meta-info"><span>30 Min</span><span>40g Protein</span></div>
-                        <p class="text-muted small mb-3">Menu bulking daging sapi dan ubi jalar.</p>
-                        <a href="MENU5.html" class="btn btn-view">Lihat Resep</a>
-                    </div>
-                </div>
+            <div class="card-body">
+                <h5 class="card-title">Grilled Chicken Salad</h5>
+                <div class="meta-info"><span>15 Min</span><span>35g Protein</span></div>
+                <p class="text-muted small mb-3">Dada ayam panggang dengan sayuran segar.</p>
+                <a href="MENU1.html" class="btn btn-view">Lihat Resep</a>
             </div>
         </div>
-        <div id="no-result" style="display:none; text-align:center; margin-top:20px; color:#777;"><i class="fas fa-search fa-2x mb-2"></i><p>Tidak ditemukan.</p></div>
     </div>
+
+    <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
+        <div class="menu-card">
+            <div class="card-img-wrapper">
+                <span class="nutrition-badge">520 Kcal</span>
+                <img src="https://kaynutrition.com/wp-content/uploads/2023/04/salmon-quinoa-bowl-1.jpg" class="card-img-top" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Salmon Quinoa Bowl</h5>
+                <div class="meta-info"><span>25 Min</span><span>28g Protein</span></div>
+                <p class="text-muted small mb-3">Salmon pan-seared dengan quinoa hangat.</p>
+                <a href="MENU2.html" class="btn btn-view">Lihat Resep</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
+        <div class="menu-card">
+            <div class="card-img-wrapper">
+                <span class="nutrition-badge">300 Kcal</span>
+                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2024/06/Berry-Smoothie-14f662b.jpg?quality=90&webp=true&resize=600,400" class="card-img-top" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Berry Protein Smoothie</h5>
+                <div class="meta-info"><span>5 Min</span><span>20g Protein</span></div>
+                <p class="text-muted small mb-3">Minuman pre-workout beri dan whey protein.</p>
+                <a href="MENU3.html" class="btn btn-view">Lihat Resep</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4 menu-item-col" data-category="vegan low-carb">
+        <div class="menu-card">
+            <div class="card-img-wrapper">
+                <span class="nutrition-badge">380 Kcal</span>
+                <img src="https://www.wellplated.com/wp-content/uploads/2019/03/How-to-Make-Tofu-Stir-Fry.jpg" class="card-img-top" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Tofu Stir Fry</h5>
+                <div class="meta-info"><span>20 Min</span><span>Vegan</span></div>
+                <p class="text-muted small mb-3">Tumis tahu dan brokoli saus bawang putih.</p>
+                <a href="MENU4.html" class="btn btn-view">Lihat Resep</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4 menu-item-col" data-category="high-protein">
+        <div class="menu-card">
+            <div class="card-img-wrapper">
+                <span class="nutrition-badge">580 Kcal</span>
+                <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=600&auto=format&fit=crop" class="card-img-top" style="height: 250px; object-fit: cover;">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Lean Beef & Sweet Potato</h5>
+                <div class="meta-info"><span>30 Min</span><span>40g Protein</span></div>
+                <p class="text-muted small mb-3">Menu bulking daging sapi dan ubi jalar.</p>
+                <a href="MENU5.html" class="btn btn-view">Lihat Resep</a>
+            </div>
+        </div>
+    </div>
+
+</div>
     
     <footer><div class="container"><p class="fw-bold mb-0">KUSDA GYM</p><small>&copy; 2025 Kusda Gym.</small></div></footer>
     
